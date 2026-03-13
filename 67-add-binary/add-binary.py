@@ -4,7 +4,6 @@ class Solution:
         carry = 0
         result = []
 
-        # Traverse both strings from the end
         while i >= 0 or j >= 0 or carry:
             total = carry
             if i >= 0:
@@ -14,10 +13,7 @@ class Solution:
                 total += int(b[j])
                 j -= 1
             
-            # Append the current bit
             result.append(str(total % 2))
-            # Update carry
             carry = total // 2
-
-        # Reverse the result to get the correct order
+        
         return ''.join(reversed(result))
