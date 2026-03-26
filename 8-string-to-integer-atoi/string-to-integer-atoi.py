@@ -1,27 +1,25 @@
 class Solution:
     def myAtoi(self, s: str) -> int:
-        s = s.strip()
-        
+        s = s.lstrip()
         if not s:
             return 0
-            
-        # Handle sign
-        if s[0] in '+-':
-            sign = -1 if s[0] == '-' else 1
-            s = s[1:]
-        else:
-            sign = 1
-            
-        # Read only digits
-        num = 0
-        for c in s:
-            if not c.isdigit():
-                break
-            num = num * 10 + int(c)
-            
-            # Cap at 32-bit limits
-            if num >= 2**31:
-                return 2**31 - 1 if sign == 1 else -2**31
-        
-        return sign * num
-        
+
+        sign = 1
+        i = 0
+        if s[0] in ['-', '+']:
+            if s[0] == '-':
+                sign = -1
+            i += 1
+
+        res = 0
+        while i < len(s) and s[i].isdigit():
+            res = res * 10 + int(s[i])
+            i += 1
+
+        res *= sign
+        INT_MIN, INT_MAX = -2**31, 2**31 - 1
+        if res < INT_MIN:
+            return INT_MIN
+        if res > INT_MAX:
+            return INT_MAX
+        return res
