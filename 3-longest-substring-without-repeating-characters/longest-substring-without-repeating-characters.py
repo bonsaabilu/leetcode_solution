@@ -1,16 +1,18 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        char_set = set()
-        left = 0
-        max_length = 0
+        char_index = {}   # stores the last index of each character
+        left = 0          # left pointer of the sliding window
+        max_len = 0
 
-        for right in range(len(s)):
-            while s[right] in char_set:
-                char_set.remove(s[left])
-                left += 1
+        for right, ch in enumerate(s):
+            # If character is already in window, move left pointer
+            if ch in char_index and char_index[ch] >= left:
+                left = char_index[ch] + 1
 
-            char_set.add(s[right])
-            max_length = max(max_length, right - left + 1)
+            # Update the last index of the character
+            char_index[ch] = right
 
-        return max_length
-        
+            # Update max length
+            max_len = max(max_len, right - left + 1)
+
+        return max_len
