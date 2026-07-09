@@ -6,27 +6,28 @@ class Solution:
 
         m, n = len(nums1), len(nums2)
         left, right = 0, m
-        total = m + n
-        half = (total + 1) // 2
 
         while left <= right:
-            i = (left + right) // 2
-            j = half - i
+            partition1 = (left + right) // 2
+            partition2 = (m + n + 1) // 2 - partition1
 
-            left1 = nums1[i - 1] if i > 0 else float('-inf')
-            right1 = nums1[i] if i < m else float('inf')
+            # Handle edges with -inf and +inf
+            maxLeft1 = float('-inf') if partition1 == 0 else nums1[partition1 - 1]
+            minRight1 = float('inf') if partition1 == m else nums1[partition1]
 
-            left2 = nums2[j - 1] if j > 0 else float('-inf')
-            right2 = nums2[j] if j < n else float('inf')
+            maxLeft2 = float('-inf') if partition2 == 0 else nums2[partition2 - 1]
+            minRight2 = float('inf') if partition2 == n else nums2[partition2]
 
-            if left1 <= right2 and left2 <= right1:
-                if total % 2 == 0:
-                    return (max(left1, left2) + min(right1, right2)) / 2.0
+            # Check if partitions are correct
+            if maxLeft1 <= minRight2 and maxLeft2 <= minRight1:
+                # Found correct partition
+                if (m + n) % 2 == 0:
+                    return (max(maxLeft1, maxLeft2) + min(minRight1, minRight2)) / 2.0
                 else:
-                    return float(max(left1, left2))
-
-            elif left1 > right2:
-                right = i - 1
+                    return float(max(maxLeft1, maxLeft2))
+            elif maxLeft1 > minRight2:
+                # Move partition1 left
+                right = partition1 - 1
             else:
-                left = i + 1
-        
+                # Move partition1 right
+                left = partition1 + 1
