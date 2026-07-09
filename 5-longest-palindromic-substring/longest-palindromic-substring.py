@@ -1,24 +1,27 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        
-        def expand(left: int, right: int) -> str:
+        if not s or len(s) == 1:
+            return s
+
+        start, end = 0, 0
+
+        def expandAroundCenter(left: int, right: int) -> tuple[int, int]:
             while left >= 0 and right < len(s) and s[left] == s[right]:
                 left -= 1
                 right += 1
-            return s[left + 1:right]
-
-        longest = ""
+            # return the bounds of the palindrome
+            return left + 1, right - 1
 
         for i in range(len(s)):
             # Odd length palindrome
-            temp = expand(i, i)
-            if len(temp) > len(longest):
-                longest = temp
-
+            l1, r1 = expandAroundCenter(i, i)
             # Even length palindrome
-            temp = expand(i, i + 1)
-            if len(temp) > len(longest):
-                longest = temp
+            l2, r2 = expandAroundCenter(i, i + 1)
 
-        return longest
-        
+            # Update longest
+            if r1 - l1 > end - start:
+                start, end = l1, r1
+            if r2 - l2 > end - start:
+                start, end = l2, r2
+
+        return s[start:end + 1]
