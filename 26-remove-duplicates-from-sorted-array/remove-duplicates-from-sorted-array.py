@@ -1,12 +1,13 @@
-from typing import List
-
 class Solution:
-    def removeDuplicates(self, nums: List[int]) -> int:
-        i = 0
+    def removeDuplicates(self, nums: list[int]) -> int:
+        if not nums:
+            return 0
 
-        for j in range(1, len(nums)):
-            if nums[j] != nums[i]:
-                i += 1
-                nums[i] = nums[j]
+        # Pointer for the position of the next unique element
+        k = 1
+        for i in range(1, len(nums)):
+            if nums[i] != nums[i - 1]:
+                nums[k] = nums[i]
+                k += 1
 
-        return i + 1
+        return k
