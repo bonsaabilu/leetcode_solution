@@ -5,6 +5,7 @@ class Solution:
         n = len(nums)
 
         for i in range(n - 2):
+            # Skip duplicate values for i
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
 
@@ -15,6 +16,7 @@ class Solution:
                     res.append([nums[i], nums[left], nums[right]])
                     left += 1
                     right -= 1
+                    # Skip duplicates for left and right
                     while left < right and nums[left] == nums[left - 1]:
                         left += 1
                     while left < right and nums[right] == nums[right + 1]:
