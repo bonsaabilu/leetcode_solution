@@ -2,7 +2,7 @@ class Solution:
     def addBinary(self, a: str, b: str) -> str:
         i, j = len(a) - 1, len(b) - 1
         carry = 0
-        result = []
+        res = []
 
         while i >= 0 or j >= 0 or carry:
             total = carry
@@ -12,8 +12,8 @@ class Solution:
             if j >= 0:
                 total += int(b[j])
                 j -= 1
-            
-            result.append(str(total % 2))
-            carry = total // 2
-        
-        return ''.join(reversed(result))
+
+            res.append(str(total % 2))   # current bit
+            carry = total // 2           # carry for next step
+
+        return "".join(reversed(res))
