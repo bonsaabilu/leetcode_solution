@@ -1,22 +1,23 @@
+
 class Solution:
     def intToRoman(self, num: int) -> str:
-        val = [
+        values = [
             1000, 900, 500, 400,
             100, 90, 50, 40,
-            10, 9, 5, 4,
-            1
+            10, 9, 5, 4, 1
         ]
-        syms = [
+
+        symbols = [
             "M", "CM", "D", "CD",
             "C", "XC", "L", "XL",
-            "X", "IX", "V", "IV",
-            "I"
+            "X", "IX", "V", "IV", "I"
         ]
-        res = ""
-        i = 0
-        while num > 0:
-            count = num // val[i]
-            res += syms[i] * count
-            num -= val[i] * count
-            i += 1
-        return res
+
+        result = ""
+
+        for i in range(len(values)):
+            while num >= values[i]:
+                result += symbols[i]
+                num -= values[i]
+
+        return result
