@@ -1,30 +1,40 @@
+
 class Solution:
     def myAtoi(self, s: str) -> int:
-        # Step 1: Trim leading whitespace
-        s = s.lstrip()
-        if not s:
-            return 0
-
-        # Step 2: Handle sign
-        sign = 1
         i = 0
-        if s[0] in ['-', '+']:
-            if s[0] == '-':
+        n = len(s)
+
+        INT_MIN = -(2 ** 31)
+        INT_MAX = 2 ** 31 - 1
+
+        # 1. Skip leading whitespace
+        while i < n and s[i] == ' ':
+            i += 1
+
+        # 2. Determine the sign
+        sign = 1
+
+        if i < n and (s[i] == '+' or s[i] == '-'):
+            if s[i] == '-':
                 sign = -1
             i += 1
 
-        # Step 3: Read digits
-        res = 0
-        while i < len(s) and s[i].isdigit():
-            res = res * 10 + int(s[i])
+        # 3. Read digits and build the number
+        num = 0
+
+        while i < n and '0' <= s[i] <= '9':
+            digit = ord(s[i]) - ord('0')
+            num = num * 10 + digit
             i += 1
 
-        res *= sign
+        # 4. Apply the sign
+        num *= sign
 
-        # Step 4: Clamp to 32-bit signed integer range
-        INT_MIN, INT_MAX = -2**31, 2**31 - 1
-        if res < INT_MIN:
+        # 5. Clamp to the 32-bit signed integer range
+        if num < INT_MIN:
             return INT_MIN
-        if res > INT_MAX:
+
+        if num > INT_MAX:
             return INT_MAX
-        return res
+
+        return num
